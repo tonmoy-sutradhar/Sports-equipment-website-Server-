@@ -25,8 +25,22 @@ async function run() {
   try {
     await client.connect();
 
-    app.get("/sports", async (req, res) => {
-      res.send("aice mama");
+    const sportsCollection = client
+      .db("Sports-equipment")
+      .collection("equipment");
+    const usersCollection = client.db("Sports-equipment").collection("users");
+
+    app.post("/sports", async (req, res) => {
+      const data = req.body;
+      const result = await sportsCollection.insertOne(data);
+      res.send(result);
+      console.log(data);
+    });
+    app.post("/users", async (req, res) => {
+      const data = req.body;
+      const result = await usersCollection.insertOne(data);
+      res.send(result);
+      console.log(data);
     });
 
     await client.db("admin").command({ ping: 1 });
