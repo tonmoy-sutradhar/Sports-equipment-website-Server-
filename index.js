@@ -30,18 +30,26 @@ async function run() {
       .collection("equipment");
     const usersCollection = client.db("Sports-equipment").collection("users");
 
-    app.post("/sports", async (req, res) => {
-      const data = req.body;
-      const result = await sportsCollection.insertOne(data);
+    // 2. Get all data from Database
+    app.get("/equipment", async (req, res) => {
+      const cursor = sportsCollection.find();
+      const result = await cursor.toArray();
       res.send(result);
-      console.log(data);
     });
-    app.post("/users", async (req, res) => {
-      const data = req.body;
-      const result = await usersCollection.insertOne(data);
+
+    // 1. Post add Equipment data.
+    app.post("/equipment", async (req, res) => {
+      const newEquipment = req.body;
+      const result = await sportsCollection.insertOne(newEquipment);
       res.send(result);
-      console.log(data);
+      // console.log(newEquipment);
     });
+    // app.post("/users", async (req, res) => {
+    //   const data = req.body;
+    //   const result = await usersCollection.insertOne(data);
+    //   res.send(result);
+    //   console.log(data);
+    // });
 
     await client.db("admin").command({ ping: 1 });
     console.log(
@@ -63,3 +71,5 @@ app.listen(port, () => {
 
 // UGFHU1MGkvzxZGgD
 // Sports-equipment
+
+// firebase-->>project-261576270669
