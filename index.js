@@ -35,6 +35,7 @@ async function run() {
       const cursor = sportsCollection.find();
       const result = await cursor.toArray();
       res.send(result);
+      console.log(cursor);
     });
 
     // 1. Post add Equipment data.
