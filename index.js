@@ -1,6 +1,6 @@
 require("dotenv").config();
 const express = require("express");
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const app = express();
 const cors = require("cors");
 const port = process.env.PORT || 8000;
@@ -36,6 +36,14 @@ async function run() {
       const result = await cursor.toArray();
       res.send(result);
       console.log(cursor);
+    });
+
+    // 3. Get any one specific equipment
+    app.get("/equipment/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await sportsCollection.findOne(query);
+      res.send(result);
     });
 
     // 1. Post add Equipment data.
