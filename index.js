@@ -126,3 +126,5 @@ app.get("/", (req, res) => {
 app.listen(port, () => {
   console.log("Server port is running on port", port);
 });
+
+// https://sports-equipment-store-server-zeta.vercel.app/equipment --->>Live server
