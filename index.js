@@ -79,6 +79,39 @@ async function run() {
       }
     });
 
+    // //////////////////////////////////////Email query
+
+    app.get("/my-equipment", async (req, res) => {
+      try {
+        const email = req.query.email; // Get user email from query params
+        if (!email) {
+          return res.status(400).send({ message: "User email is required" });
+        }
+        const query = { userEmail: email };
+        const result = await sportsCollection.find(query).toArray();
+        res.send(result);
+      } catch (err) {
+        console.error("Error fetching user's equipment:", err);
+        res.status(500).send({ message: "Failed to fetch user's equipment" });
+      }
+    });
+
+    app.post("/equipment", async (req, res) => {
+      try {
+        const newEquipment = req.body;
+        if (!newEquipment.userEmail) {
+          return res.status(400).send({ message: "User email is required" });
+        }
+        const result = await sportsCollection.insertOne(newEquipment);
+        res.send(result);
+      } catch (err) {
+        console.error("Error adding equipment:", err);
+        res.status(500).send({ message: "Failed to add equipment" });
+      }
+    });
+
+    // //////////////////////////////////////////////////
+
     // 5. Update equipment data
     app.put("/equipment/:id", async (req, res) => {
       try {
